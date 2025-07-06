@@ -24,6 +24,9 @@ jobs:
             image: web
           - dockerfile: QueueWorker.Dockerfile
             image: queue
+    permissions:
+      contents: read
+      packages: write
 
     steps:
       - uses: actions/checkout@v4
