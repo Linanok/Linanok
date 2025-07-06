@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+    web:
+        build:
+            context: .
+            dockerfile: Web.Dockerfile
+        ports:
+            - "8000:8000"
+        volumes:
+            - ./:/app:cached
+            - frankenphp-data:/tmp
+        env_file:
+            - .env.docker
+        depends_on:
+            postgres:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+        restart: unless-stopped
+        networks:
+            - app
+
+    queue-worker:
+        build:
+            context: .
+            dockerfile: QueueWorker.Dockerfile
+        volumes:
+            - ./:/app:cached
+        env_file:
+            - .env.docker
+        depends_on:
+            postgres:
+                condition: service_healthy
+            redis:
+                condition: service_healthy
+        restart: unless-stopped
+        networks:
+            - app
+
+    postgres:
+        image: postgres:17-alpine
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+        env_file:
+            - .env docker
+        environment:
+            - DB_DATABASE=${DB_DATABASE}
+            - DB_USERNAME=${DB_USERNAME}
+            - DB_PASSWORD=${DB_PASSWORD}
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        networks:
+            - app
+        restart: unless-stopped
+
+    redis:
+        image: redis:8-alpine
+        volumes:
+            - redis-data:/data
+        healthcheck:
+            test: ["CMD", "redis-cli", "ping"]
+            interval: 5s
+            timeout: 5s
+            retries: 5
+        networks:
+            - app
+        restart: unless-stopped
+
+volumes:
+    postgres-data:
+    redis-data:
+    frankenphp-data:
+
+networks:
+    app:
+        driver: bridge

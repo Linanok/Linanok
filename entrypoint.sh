@@ -1,0 +1,16 @@
+#!/bin/sh
+set -e
+
+cd /app
+
+# Run database migrations
+php artisan migrate --force
+
+# Run Laravel optimization commands
+php artisan optimize:clear
+php artisan optimize
+php artisan view:cache
+php artisan event:cache
+
+# Start FrankenPHP server
+exec php artisan octane:frankenphp
