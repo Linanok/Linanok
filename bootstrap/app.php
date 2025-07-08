@@ -11,7 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->trustProxies(at: explode(',', env('TRUSTED_PROXIES') ?? ''));
+        $trustedProxies = env('TRUSTED_PROXIES', '');
+        if ($trustedProxies === '*') {
+            $middleware->trustProxies(at: '*');
+        } else {
+            $middleware->trustProxies(at: explode(',', $trustedProxies));
+        }
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
