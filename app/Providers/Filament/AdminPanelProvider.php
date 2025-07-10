@@ -39,7 +39,9 @@ class AdminPanelProvider extends PanelProvider
         $panel = $panel
             ->id('admin')
             ->path('admin')
-            ->brandLogo(asset('linanok.svg'))
+            ->brandLogo(function () {
+                return asset('linanok.svg');
+            })
             ->login()
             ->profile(isSimple: false)
             ->sidebarCollapsibleOnDesktop()
