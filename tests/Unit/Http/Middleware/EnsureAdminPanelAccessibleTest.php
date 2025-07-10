@@ -4,7 +4,6 @@ namespace Tests\Unit\Http\Middleware;
 
 use App\Http\Middleware\EnsureAdminPanelAccessible;
 use App\Models\Domain;
-use Closure;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
 use PHPUnit\Framework\Attributes\Test;
@@ -16,12 +15,13 @@ class EnsureAdminPanelAccessibleTest extends TestCase
     use RefreshDatabase;
 
     private EnsureAdminPanelAccessible $middleware;
+
     private Domain $defaultDomain;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->middleware = new EnsureAdminPanelAccessible();
+        $this->middleware = new EnsureAdminPanelAccessible;
 
         // Create a default domain with admin panel access to satisfy DomainObserver validation
         $this->defaultDomain = Domain::factory()->create([
@@ -265,6 +265,7 @@ class EnsureAdminPanelAccessibleTest extends TestCase
         $next = function ($req) use (&$nextCalled, &$passedRequest) {
             $nextCalled = true;
             $passedRequest = $req;
+
             return new Response('Next middleware called', 200);
         };
 
