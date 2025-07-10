@@ -23,8 +23,6 @@ class DomainObserver
      * after the save operation. If this resulted in no admin panel access,
      * the save is prevented with a validation exception.
      *
-     * Also triggers a Filament panel reboot when admin panel availability changes.
-     *
      * @param  Domain  $domain  The domain being saved
      *
      * @throws ValidationException When the save would remove all admin panel access
@@ -32,17 +30,12 @@ class DomainObserver
     public function saving(Domain $domain): void
     {
         // Check if this save would remove all admin panel access
-        if (! ($domain->is_active && $domain->is_admin_panel_available) && ! Domain::adminPanelAvailable()
+        if (! ($domain->is_admin_panel_available) && ! Domain::adminPanelAvailable()
             ->where('id', '!=', $domain->id)
             ->exists()) {
             throw ValidationException::withMessages([
                 'is_admin_panel_available' => 'At least one active domain must have admin panel available.',
             ]);
-        }
-
-        // Reboot Filament panel if admin panel availability changes
-        if ($domain->isDirty(['is_active', 'is_admin_panel_available'])) {
-            filament()->getCurrentPanel()?->boot();
         }
     }
 }

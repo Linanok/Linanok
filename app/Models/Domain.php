@@ -93,7 +93,6 @@ class Domain extends Model
     protected function scopeAdminPanelAvailable(Builder $query): Builder
     {
         return $query
-            ->available()
             ->where('is_admin_panel_available', true);
     }
 

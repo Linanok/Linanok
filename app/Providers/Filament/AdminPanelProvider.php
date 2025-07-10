@@ -3,7 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Pages\Dashboard;
-use App\Models\Domain;
+use App\Http\Middleware\EnsureAdminPanelAccessible;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
@@ -20,7 +20,6 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Blade;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 
 class AdminPanelProvider extends PanelProvider
@@ -36,7 +35,7 @@ class AdminPanelProvider extends PanelProvider
             'warning' => Color::Orange,
         ]);
 
-        $panel = $panel
+        return $panel
             ->id('admin')
             ->path('admin')
             ->brandLogo(function () {
@@ -58,6 +57,7 @@ class AdminPanelProvider extends PanelProvider
                 Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
+                EnsureAdminPanelAccessible::class,
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,
                 StartSession::class,
@@ -72,17 +72,5 @@ class AdminPanelProvider extends PanelProvider
                 Authenticate::class,
             ])
             ->renderHook(PanelsRenderHook::BODY_END, fn (): string => Blade::render('components.copyright'));
-
-        // Only query domains if the table exists
-        if (Schema::hasTable('domains')) {
-            $panel->domains(
-                Domain::adminPanelAvailable()
-                    ->get()
-                    ->map
-                    ->host_without_port->toArray()
-            );
-        }
-
-        return $panel;
     }
 }
