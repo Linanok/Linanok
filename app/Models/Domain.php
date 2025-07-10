@@ -85,15 +85,14 @@ class Domain extends Model
     /**
      * Scope a query to only include domains where the admin panel is available.
      *
-     * This combines the available scope with the admin panel availability check.
+     * This scope filters domains where the admin panel is marked as available.
      *
-     * @param  Builder  $query  The query builder instance
-     * @return Builder The modified query builder
+     * @param  Builder  $query  The query builder instance.
+     * @return Builder The modified query builder.
      */
-    protected function scopeAdminPanelAvailable(Builder $query): Builder
+    public function scopeAdminPanelAvailable(Builder $query): Builder
     {
-        return $query
-            ->where('is_admin_panel_available', true);
+        return $query->where('is_admin_panel_available', true);
     }
 
     public function __toString()
