@@ -102,34 +102,40 @@ using our prebuilt Docker images.
    APP_DEBUG=false
    APP_TIMEZONE=UTC
    APP_URL=http://localhost:8000
-   
+
+   OCTANE_WORKERS=8
+   QUEUE_WORKER_REPLICAS=4
+
+   TRUSTED_PROXIES=*
+
    APP_MAINTENANCE_DRIVER=file
+
    BCRYPT_ROUNDS=12
-   
+
    LOG_CHANNEL=stack
    LOG_STACK=single
    LOG_DEPRECATIONS_CHANNEL=null
    LOG_LEVEL=debug
-   
+
    DB_CONNECTION=pgsql
    DB_HOST=postgres
    DB_PORT=5432
    DB_DATABASE=linanok
    DB_USERNAME=postgres
    DB_PASSWORD=postgres
-   
+
    SESSION_DRIVER=redis
    SESSION_LIFETIME=120
    SESSION_ENCRYPT=false
    SESSION_PATH=/
    SESSION_DOMAIN=null
-   
+ 
    FILESYSTEM_DISK=local
    QUEUE_CONNECTION=database
-   
+
    CACHE_STORE=redis
    CACHE_PREFIX=
-   
+
    REDIS_CLIENT=predis
    REDIS_HOST=redis
    REDIS_PASSWORD=null
@@ -200,6 +206,11 @@ If you prefer to install Linanok without Docker:
 7. **Set up queue worker:**
    ```bash
    php artisan queue:work
+   ```
+
+8. **Start the development server:**
+   ```bash
+   php artisan serve
    ```
 
 ## ⚙️ Configuration

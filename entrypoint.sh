@@ -13,4 +13,4 @@ php artisan view:cache
 php artisan event:cache
 
 # Start FrankenPHP server
-exec php artisan octane:frankenphp
+exec php artisan octane:start --server=frankenphp --workers=$OCTANE_WORKERS
