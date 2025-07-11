@@ -102,7 +102,7 @@ class QuickLinkCreator extends Widget implements HasForms
         Notification::make()
             ->success()
             ->title('Link created successfully!')
-            ->body(new HtmlString("Your shortened URL: <br/> <div class='flex items-center mt-2'><code class='bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm font-mono break-all'>$shortenedUrl</code> <button onclick='navigator.clipboard.writeText(\"$shortenedUrl\"); this.innerText = \"Copied!\"; setTimeout(() => this.innerText = \"Copy\", 2000)' class='ml-2 px-2 py-1 bg-primary-500 text-white rounded text-xs'>Copy</button></div>"))
+            ->body(new HtmlString("Your shortened URL: <br/> <div class='flex items-center mt-2'><code class='bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded text-sm font-mono break-all'>$shortenedUrl</code></div>"))
             ->actions([
                 Action::make('view')
                     ->button()

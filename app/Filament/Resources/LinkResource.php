@@ -14,7 +14,6 @@ use App\Models\Link;
 use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Group;
 use Filament\Forms\Components\MarkdownEditor;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
@@ -85,7 +84,7 @@ class LinkResource extends Resource
                                                 Action::make('visit')
                                                     ->icon('heroicon-m-arrow-top-right-on-square')
                                                     ->tooltip('Visit original URL')
-                                                    ->url(fn ($record) => $record?->original_url ?? '#', true)
+                                                    ->url(fn ($record) => $record->original_url, true)
                                                     ->visible(fn ($record) => $record !== null)
                                             )
                                             ->helperText('Enter the URL you want to shorten'),
@@ -99,61 +98,26 @@ class LinkResource extends Resource
                                                     ->readOnly(fn ($record) => $record !== null)
                                                     ->maxLength(50),
 
-                                                Group::make()
-                                                    ->schema([
-                                                        TextInput::make('short_path')
-                                                            ->label('Short Path')
-                                                            ->readonly()
-                                                            ->hidden(fn ($record) => ! $record)
-                                                            ->suffixAction(
-                                                                Action::make('copy')
-                                                                    ->icon('heroicon-o-clipboard')
-                                                                    ->tooltip('Copy to clipboard')
-                                                                    ->action(function ($record) {
-                                                                        // Copy action handled by JS
-                                                                    })
-                                                                    ->visible(fn ($record) => $record !== null)
-                                                            ),
+                                                TextInput::make('short_path')
+                                                    ->suffixActions([
+                                                        Action::make('copy')
+                                                            ->icon('heroicon-m-clipboard')
+                                                            ->tooltip('Copy to clipboard')
+                                                            ->action(fn ($livewire, Link $record) => $livewire->dispatch('copy-to-clipboard', ['value' => LinkResource::getShortUrl($record, $livewire)])),
 
-                                                        Placeholder::make('shortened_url_display')
-                                                            ->label('Full URL')
-                                                            ->content(function ($record) {
-                                                                if (! $record) {
-                                                                    return '-';
-                                                                }
-
-                                                                $url = get_short_url($record);
-
-                                                                if (! $url) {
-                                                                    return '-';
-                                                                }
-
-                                                                return new HtmlString(
-                                                                    "<div class='flex items-center'>"
-                                                                    ."<code class='text-xs bg-gray-100 dark:bg-gray-800 px-2 py-1 rounded break-all'>$url</code>"
-                                                                    .'<button '
-                                                                    ."onclick='navigator.clipboard.writeText(\"$url\");' "
-                                                                    ."class='ml-2 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'>"
-                                                                    .svg('heroicon-o-clipboard', 'w-4 h-4')->toHtml()
-                                                                    .'</button>'
-                                                                    ."<a href='$url' target='_blank' class='ml-1 p-1 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors'>"
-                                                                    .svg('heroicon-o-arrow-top-right-on-square', 'w-4 h-4')->toHtml()
-                                                                    .'</a>'
-                                                                    .'</div>'
-                                                                );
-                                                            })
+                                                        Action::make('visit')
+                                                            ->icon('heroicon-m-arrow-top-right-on-square')
+                                                            ->tooltip('Visit original URL')
+                                                            ->url(fn ($livewire, Link $record) => LinkResource::getShortUrl($record, $livewire), true)
                                                             ->visible(fn ($record) => $record !== null),
                                                     ])
-                                                    ->columnSpan(1),
+                                                    ->visible(fn ($record) => $record !== null)
+                                                    ->readOnly(),
                                             ]),
 
                                         Placeholder::make('visit_count_display')
                                             ->label('Statistics')
                                             ->content(function ($record) {
-                                                if (! $record) {
-                                                    return '-';
-                                                }
-
                                                 return new HtmlString(
                                                     "<div class='flex space-x-4'>"
                                                     ."<div class='flex items-center'>"
@@ -281,15 +245,7 @@ class LinkResource extends Resource
 
                 TextColumn::make('short_path')
                     ->label('Short URL')
-                    ->url(function ($record, $livewire) {
-                        if ($livewire instanceof LinksRelationManager) {
-                            $domain = $livewire->ownerRecord;
-                        } else {
-                            $domain = null;
-                        }
-
-                        return get_short_url($record, $domain);
-                    })
+                    ->url(fn ($record, $livewire) => LinkResource::getShortUrl($record, $livewire))
                     ->openUrlInNewTab()
                     ->icon('heroicon-o-arrow-top-right-on-square')
                     ->iconPosition('after'),
@@ -355,6 +311,17 @@ class LinkResource extends Resource
             ->bulkActions([
                 DeleteBulkAction::make(),
             ]);
+    }
+
+    public static function getShortUrl($record, $livewire)
+    {
+        if ($livewire instanceof LinksRelationManager) {
+            $domain = $livewire->ownerRecord;
+        } else {
+            $domain = null;
+        }
+
+        return get_short_url($record, $domain);
     }
 
     public static function getPages(): array
