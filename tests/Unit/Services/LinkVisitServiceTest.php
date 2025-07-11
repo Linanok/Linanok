@@ -198,7 +198,7 @@ class LinkVisitServiceTest extends TestCase
             'protocol' => 'https',
             'host' => 'example.com',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         // Mock the current_domain helper

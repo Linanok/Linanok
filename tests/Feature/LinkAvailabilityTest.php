@@ -20,7 +20,7 @@ class LinkAvailabilityTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link = Link::factory()->create([
@@ -49,7 +49,7 @@ class LinkAvailabilityTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link = Link::factory()->create([
@@ -76,7 +76,7 @@ class LinkAvailabilityTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link = Link::factory()->create([
@@ -103,7 +103,7 @@ class LinkAvailabilityTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link = Link::factory()->create([
@@ -130,7 +130,7 @@ class LinkAvailabilityTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link = Link::factory()->create([
@@ -164,7 +164,7 @@ class LinkAvailabilityTest extends TestCase
             'host' => 'wrong-domain.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link->domains()->attach($wrongDomain);

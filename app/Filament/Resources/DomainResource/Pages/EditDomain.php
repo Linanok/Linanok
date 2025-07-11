@@ -46,20 +46,20 @@ class EditDomain extends EditRecord
 
     protected function beforeSave(): void
     {
-        if (! $this->data['is_admin_panel_available']) {
+        if (! $this->data['is_admin_panel_active']) {
             $otherAdminPanelExists = Domain::adminPanelAvailable()
                 ->where('id', '!=', $this->record->id)
                 ->exists();
 
             if (! $otherAdminPanelExists) {
-                if (! $this->data['is_admin_panel_available']) {
-                    $this->addError('data.is_admin_panel_available', 'At least one active domain must have admin panel available.');
+                if (! $this->data['is_admin_panel_active']) {
+                    $this->addError('data.is_admin_panel_active', 'At least one domain must have the admin panel activated.');
                 }
 
                 Notification::make()
                     ->danger()
                     ->title('Cannot disable admin panel')
-                    ->body('At least one active domain must have admin panel available.')
+                    ->body('At least one domain must have the admin panel activated.')
                     ->send();
 
                 $this->halt();

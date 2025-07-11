@@ -28,7 +28,7 @@ class EnsureAdminPanelAccessibleTest extends TestCase
             'host' => 'default-test-domain.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
     }
 
@@ -60,7 +60,7 @@ class EnsureAdminPanelAccessibleTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $request = Request::create('https://unknown-domain.com/admin');
@@ -74,14 +74,14 @@ class EnsureAdminPanelAccessibleTest extends TestCase
     }
 
     #[Test]
-    public function it_allows_access_when_current_domain_has_admin_panel_available(): void
+    public function it_allows_access_when_current_domain_has_admin_panel_active(): void
     {
         // Arrange
         $testDomain = Domain::factory()->create([
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         // Mock the request for current_domain() helper
@@ -109,7 +109,7 @@ class EnsureAdminPanelAccessibleTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => false,
+            'is_admin_panel_active' => false,
         ]);
 
         // Mock the request for current_domain() helper
@@ -133,7 +133,7 @@ class EnsureAdminPanelAccessibleTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'http',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         // Mock the request for current_domain() helper
@@ -160,7 +160,7 @@ class EnsureAdminPanelAccessibleTest extends TestCase
             'host' => 'example.com:8080',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         // Mock the request for current_domain() helper
@@ -180,7 +180,7 @@ class EnsureAdminPanelAccessibleTest extends TestCase
     }
 
     #[Test]
-    public function it_denies_access_for_inactive_domain_with_admin_panel_available(): void
+    public function it_denies_access_for_inactive_domain_with_admin_panel_active(): void
     {
         // Arrange - Create an inactive domain
         // (defaultDomain already exists with admin panel access to satisfy observer)
@@ -188,7 +188,7 @@ class EnsureAdminPanelAccessibleTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => false,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $request = Request::create('https://example.com/admin');
@@ -210,21 +210,21 @@ class EnsureAdminPanelAccessibleTest extends TestCase
             'host' => 'domain1.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => false,
+            'is_admin_panel_active' => false,
         ]);
 
         $domain2 = Domain::factory()->create([
             'host' => 'domain2.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $domain3 = Domain::factory()->create([
             'host' => 'domain3.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => false,
+            'is_admin_panel_active' => false,
         ]);
 
         $next = function ($request) {
@@ -252,7 +252,7 @@ class EnsureAdminPanelAccessibleTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         // Mock the request for current_domain() helper
@@ -288,7 +288,7 @@ class EnsureAdminPanelAccessibleTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => false,
+            'is_admin_panel_active' => false,
         ]);
 
         $request = Request::create('https://example.com/admin');

@@ -21,7 +21,7 @@ class DomainResourceTest extends TestCase
         Domain::factory()->create([
             'host' => 'default-test-domain.com',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
     }
 
@@ -90,7 +90,7 @@ class DomainResourceTest extends TestCase
         $domain = Domain::factory()->create([
             'host' => 'deletable-domain.com',
             'is_active' => true,
-            'is_admin_panel_available' => false,
+            'is_admin_panel_active' => false,
         ]);
 
         // Verify domain exists
@@ -109,7 +109,7 @@ class DomainResourceTest extends TestCase
         $domain = Domain::factory()->create([
             'host' => 'domain-with-links.com',
             'is_active' => true,
-            'is_admin_panel_available' => false,
+            'is_admin_panel_active' => false,
         ]);
 
         $link = Link::factory()->create();

@@ -22,7 +22,7 @@ class DomainTest extends TestCase
             'host' => 'example.com:8080',
             'protocol' => Protocol::HTTPS,
             'is_active' => true,
-            'is_admin_panel_available' => false,
+            'is_admin_panel_active' => false,
         ]);
 
         // Assert
@@ -30,13 +30,13 @@ class DomainTest extends TestCase
             'host' => 'example.com:8080',
             'protocol' => Protocol::HTTPS->value,
             'is_active' => true,
-            'is_admin_panel_available' => false,
+            'is_admin_panel_active' => false,
         ]);
 
         $this->assertEquals('example.com:8080', $domain->host);
         $this->assertEquals(Protocol::HTTPS, $domain->protocol);
         $this->assertTrue($domain->is_active);
-        $this->assertFalse($domain->is_admin_panel_available);
+        $this->assertFalse($domain->is_admin_panel_active);
     }
 
     #[Test]
@@ -98,7 +98,7 @@ class DomainTest extends TestCase
         $domain->host = 'example.com';
         $domain->protocol = 'https';
         $domain->is_active = true;
-        $domain->is_admin_panel_available = true; // Set to true to avoid validation issues
+        $domain->is_admin_panel_active = true; // Set to true to avoid validation issues
         $domain->save();
 
         // Verify that hostWithoutPort returns the full host when no port is present
@@ -129,13 +129,13 @@ class DomainTest extends TestCase
         $domain = Domain::factory()->create([
             'host' => 'another-domain.com',
             'is_active' => false,
-            'is_admin_panel_available' => false,
+            'is_admin_panel_active' => false,
         ]);
 
         // Try to update the default domain to inactive or without admin panel
         $this->expectException(ValidationException::class);
 
-        $defaultDomain->is_admin_panel_available = false;
+        $defaultDomain->is_admin_panel_active = false;
         $defaultDomain->save();
     }
 
@@ -158,7 +158,7 @@ class DomainTest extends TestCase
         Domain::factory()->create([
             'host' => 'default-test-domain.com',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
     }
 }

@@ -25,7 +25,7 @@ class CreateDomain extends CreateRecord
                         'host' => $host,
                         'protocol' => $protocol,
                         'is_active' => true,
-                        'is_admin_panel_available' => true,
+                        'is_admin_panel_active' => true,
                     ]);
                 })
                 ->visible(fn () => ! Domain::exists()),

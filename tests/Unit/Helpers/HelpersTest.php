@@ -38,7 +38,7 @@ class HelpersTest extends TestCase
             'host' => 'example.com:8080',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $this->app->instance('request', Request::create('https://example.com:8080'));
@@ -73,21 +73,21 @@ class HelpersTest extends TestCase
             'host' => 'example1.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $targetDomain = Domain::factory()->create([
             'host' => 'example2.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         Domain::factory()->create([
             'host' => 'example3.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $this->app->instance('request', Request::create('https://example2.com'));
@@ -111,7 +111,7 @@ class HelpersTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
     }
 }

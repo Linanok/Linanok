@@ -17,7 +17,7 @@ class EnsureAdminPanelAccessible
                 return $next($request);
             }
         } else {
-            if ($currentDomain->is_admin_panel_available) {
+            if ($currentDomain->is_admin_panel_active) {
                 return $next($request);
             }
         }

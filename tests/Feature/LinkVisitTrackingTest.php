@@ -27,7 +27,7 @@ class LinkVisitTrackingTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link = Link::factory()->create([
@@ -62,7 +62,7 @@ class LinkVisitTrackingTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link = Link::factory()->create([
@@ -97,7 +97,7 @@ class LinkVisitTrackingTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link = Link::factory()->create([

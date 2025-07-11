@@ -30,11 +30,11 @@ class DomainObserver
     public function saving(Domain $domain): void
     {
         // Check if this save would remove all admin panel access
-        if (! ($domain->is_admin_panel_available) && ! Domain::adminPanelAvailable()
+        if (! ($domain->is_admin_panel_active) && ! Domain::adminPanelAvailable()
             ->where('id', '!=', $domain->id)
             ->exists()) {
             throw ValidationException::withMessages([
-                'is_admin_panel_available' => 'At least one active domain must have admin panel available.',
+                'is_admin_panel_active' => 'At least one domain must have the admin panel activated.',
             ]);
         }
     }

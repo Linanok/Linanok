@@ -66,7 +66,7 @@ class DomainResource extends Resource
                 Toggle::make('is_active')
                     ->default(true),
 
-                Toggle::make('is_admin_panel_available')
+                Toggle::make('is_admin_panel_active')
                     ->default(false),
 
                 Placeholder::make('created_at')
@@ -87,7 +87,7 @@ class DomainResource extends Resource
                 IconColumn::make('is_active')
                     ->boolean(),
 
-                IconColumn::make('is_admin_panel_available')
+                IconColumn::make('is_admin_panel_active')
                     ->boolean(),
             ])
             ->filters([

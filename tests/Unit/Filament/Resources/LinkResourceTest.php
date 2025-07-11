@@ -100,7 +100,7 @@ class LinkResourceTest extends TestCase
         Domain::factory()->create([
             'host' => 'default-test-domain.com',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
     }
 }

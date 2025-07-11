@@ -29,14 +29,14 @@ class GetShortUrlTest extends TestCase
             'host' => 'example.com',
             'protocol' => Protocol::HTTPS,
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $this->domain2 = Domain::factory()->create([
             'host' => 'other-domain.com',
             'protocol' => Protocol::HTTP,
             'is_active' => true,
-            'is_admin_panel_available' => false,
+            'is_admin_panel_active' => false,
         ]);
 
         // Create a test link with a fixed short_path for predictable testing

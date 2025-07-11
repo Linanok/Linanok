@@ -32,7 +32,7 @@ class DashboardTest extends TestCase
         $this->domain = Domain::factory()->create([
             'host' => 'example.com',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         // Create a user

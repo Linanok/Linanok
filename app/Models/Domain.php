@@ -92,7 +92,7 @@ class Domain extends Model
      */
     public function scopeAdminPanelAvailable(Builder $query): Builder
     {
-        return $query->where('is_admin_panel_available', true);
+        return $query->where('is_admin_panel_active', true);
     }
 
     public function __toString()

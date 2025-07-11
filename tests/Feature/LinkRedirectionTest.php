@@ -20,7 +20,7 @@ class LinkRedirectionTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link = Link::factory()->create([
@@ -47,7 +47,7 @@ class LinkRedirectionTest extends TestCase
             'host' => 'example.com',
             'protocol' => 'https',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link = Link::factory()->create([
@@ -74,7 +74,7 @@ class LinkRedirectionTest extends TestCase
             'protocol' => 'https',
             'host' => 'example.com',
             'is_active' => true,
-            'is_admin_panel_available' => true,
+            'is_admin_panel_active' => true,
         ]);
 
         $link = Link::factory()->create([
