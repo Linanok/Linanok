@@ -4,7 +4,7 @@ set -e
 cd /app
 
 # Run database migrations
-php artisan migrate --force
+php artisan migrate --force --seed --seeder=ProductionDatabaseSeeder
 
 # Run Laravel optimization commands
 php artisan optimize:clear
