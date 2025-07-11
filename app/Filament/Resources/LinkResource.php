@@ -174,7 +174,7 @@ class LinkResource extends Resource
                                                     )
                                                     .'</div>'
                                                     .'<div>'
-                                                    ."<span class='text-sm font-medium'>".($record->is_available ? 'Active' : 'Inactive').'</span>'
+                                                    ."<span class='text-sm font-medium'>".($record->is_available ? 'Available' : 'Unavailable').'</span>'
                                                     ."<p class='text-xs text-gray-500 dark:text-gray-400'>Status</p>"
                                                     .'</div>'
                                                     .'</div>'
