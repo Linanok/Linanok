@@ -36,8 +36,13 @@ jobs:
         run: |
           IMAGE_PREFIX="${{ env.REGISTRY }}/${{ env.PROJECT }}/${{ matrix.image }}"
           if [ "$GITHUB_EVENT_NAME" = "release" ]; then
+            VERSION="${GITHUB_REF_NAME}"
+            MAJOR=$(echo "$VERSION" | cut -d. -f1)
+            MINOR=$(echo "$VERSION" | cut -d. -f2)
             echo "tags<<EOF" >> $GITHUB_OUTPUT
-            echo "${IMAGE_PREFIX}:${GITHUB_REF_NAME}" >> $GITHUB_OUTPUT
+            echo "${IMAGE_PREFIX}:${MAJOR}" >> $GITHUB_OUTPUT
+            echo "${IMAGE_PREFIX}:${MAJOR}.${MINOR}" >> $GITHUB_OUTPUT
+            echo "${IMAGE_PREFIX}:${VERSION}" >> $GITHUB_OUTPUT
             echo "${IMAGE_PREFIX}:latest" >> $GITHUB_OUTPUT
             echo "EOF" >> $GITHUB_OUTPUT
           else
