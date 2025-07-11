@@ -59,16 +59,6 @@ class GetShortUrlTest extends TestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_returns_url_with_provided_domain_when_link_is_associated()
     {
-        // Arrange
-        URL::shouldReceive('useOrigin')
-            ->once()
-            ->with('https://example.com');
-
-        URL::shouldReceive('route')
-            ->once()
-            ->with('link.redirect', ['short_path' => 'test-link'])
-            ->andReturn('https://example.com/test-link');
-
         // Act
         $result = get_short_url($this->link, $this->domain1);
 
@@ -89,15 +79,6 @@ class GetShortUrlTest extends TestCase
             'protocol' => Protocol::HTTPS,
         ]);
 
-        URL::shouldReceive('useOrigin')
-            ->once()
-            ->with('https://example.com');
-
-        URL::shouldReceive('route')
-            ->once()
-            ->with('link.redirect', ['short_path' => 'test-link'])
-            ->andReturn('https://example.com/test-link');
-
         // Act
         $result = get_short_url($this->link, $unassociatedDomain);
 
@@ -114,15 +95,6 @@ class GetShortUrlTest extends TestCase
     {
         // Arrange - Mock the request to use domain1 as the current domain
         $this->app->instance('request', Request::create('https://example.com'));
-
-        URL::shouldReceive('useOrigin')
-            ->once()
-            ->with('https://example.com');
-
-        URL::shouldReceive('route')
-            ->once()
-            ->with('link.redirect', ['short_path' => 'test-link'])
-            ->andReturn('https://example.com/test-link');
 
         // Act
         $result = get_short_url($this->link);
@@ -145,15 +117,6 @@ class GetShortUrlTest extends TestCase
         ]);
         $this->app->instance('request', Request::create('https://unassociated.com'));
 
-        URL::shouldReceive('useOrigin')
-            ->once()
-            ->with('https://example.com');
-
-        URL::shouldReceive('route')
-            ->once()
-            ->with('link.redirect', ['short_path' => 'test-link'])
-            ->andReturn('https://example.com/test-link');
-
         // Act
         $result = get_short_url($this->link);
 
@@ -170,15 +133,6 @@ class GetShortUrlTest extends TestCase
         // Arrange - Mock the request with a domain that doesn't exist
         $this->app->instance('request', Request::create('https://non-existent-domain.com'));
 
-        URL::shouldReceive('useOrigin')
-            ->once()
-            ->with('https://example.com');
-
-        URL::shouldReceive('route')
-            ->once()
-            ->with('link.redirect', ['short_path' => 'test-link'])
-            ->andReturn('https://example.com/test-link');
-
         // Act
         $result = get_short_url($this->link);
 
@@ -192,16 +146,6 @@ class GetShortUrlTest extends TestCase
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_uses_second_domain_when_specified()
     {
-        // Arrange
-        URL::shouldReceive('useOrigin')
-            ->once()
-            ->with('http://other-domain.com');
-
-        URL::shouldReceive('route')
-            ->once()
-            ->with('link.redirect', ['short_path' => 'test-link'])
-            ->andReturn('http://other-domain.com/test-link');
-
         // Act
         $result = get_short_url($this->link, $this->domain2);
 

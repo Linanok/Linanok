@@ -67,10 +67,7 @@ if (! function_exists('get_short_url')) {
             return null;
         }
 
-        // Set the URL origin to match the selected domain
-        URL::useOrigin("{$domain->protocol->value}://{$domain->host}");
-
         // Generate the route URL for the link redirect
-        return URL::route('link.redirect', ['short_path' => $link->short_path]);
+        return "{$domain->protocol->value}://$domain->host/$link->short_path";
     }
 }
