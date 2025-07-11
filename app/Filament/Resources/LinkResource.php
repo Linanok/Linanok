@@ -103,12 +103,14 @@ class LinkResource extends Resource
                                                         Action::make('copy')
                                                             ->icon('heroicon-m-clipboard')
                                                             ->tooltip('Copy to clipboard')
+                                                            ->disabled(fn (Link $record) => ! $record->is_available)
                                                             ->action(fn ($livewire, Link $record) => $livewire->dispatch('copy-to-clipboard', ['value' => LinkResource::getShortUrl($record, $livewire)])),
 
                                                         Action::make('visit')
                                                             ->icon('heroicon-m-arrow-top-right-on-square')
                                                             ->tooltip('Visit original URL')
                                                             ->url(fn ($livewire, Link $record) => LinkResource::getShortUrl($record, $livewire), true)
+                                                            ->disabled(fn (Link $record) => ! $record->is_available)
                                                             ->visible(fn ($record) => $record !== null),
                                                     ])
                                                     ->visible(fn ($record) => $record !== null)
