@@ -93,7 +93,7 @@ class LinkResource extends Resource
                                             ->schema([
                                                 TextInput::make('slug')
                                                     ->unique(ignorable: fn ($record) => $record)
-                                                    ->placeholder('custom-slug')
+                                                    ->placeholder(fn ($record) => $record === null ? 'custom-slug' : '-')
                                                     ->helperText('Leave empty for auto-generation')
                                                     ->readOnly(fn ($record) => $record !== null)
                                                     ->maxLength(50),
