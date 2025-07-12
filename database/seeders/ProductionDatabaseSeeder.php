@@ -9,7 +9,7 @@ class ProductionDatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        $models = ['link', 'domain', 'tag', 'user', 'role', 'permission'];
+        $models = ['link', 'domain', 'tag', 'user', 'role'];
         $actions = ['view', 'create', 'update', 'delete'];
 
         $permissions = [];
