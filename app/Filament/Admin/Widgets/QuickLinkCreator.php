@@ -4,8 +4,6 @@ namespace App\Filament\Admin\Widgets;
 
 use App\Models\Domain;
 use App\Models\Link;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Forms\Contracts\HasForms;
@@ -39,26 +37,30 @@ class QuickLinkCreator extends Widget implements HasForms
     {
         return $form
             ->schema([
-                Section::make()
-                    ->schema([
-                        Grid::make()
-                            ->schema([
-                                TextInput::make('original_url')
-                                    ->label('URL to Shorten')
-                                    ->required()
-                                    ->url()
-                                    ->placeholder('https://example.com')
-                                    ->helperText(new HtmlString('Need advanced options? <a href="#" wire:click.prevent="redirectToAdvancedOptions" class="text-primary-600 hover:text-primary-500">Create with full options</a>'))
-                                    ->columnSpanFull(),
-                            ]),
-                    ])
-                    ->columns(1),
+                TextInput::make('original_url')
+                    ->label('URL to Shorten')
+                    ->url()
+                    ->placeholder('https://example.com')
+                    ->helperText(new HtmlString('Need advanced options? <a href="#" wire:click.prevent="redirectToAdvancedOptions" class="text-primary-600 hover:text-primary-500">Create with full options</a>'))
+                    ->columnSpanFull(),
             ])
             ->statePath('data');
     }
 
     public function create(): void
     {
+        $data = $this->form->getState();
+
+        if (empty($data['original_url'])) {
+            Notification::make()
+                ->danger()
+                ->title('Missing URL')
+                ->body('Please enter a URL to shorten.')
+                ->send();
+
+            return;
+        }
+
         $domainIds = Domain::pluck('id')->toArray();
 
         if (! $domainIds) {
@@ -84,8 +86,6 @@ class QuickLinkCreator extends Widget implements HasForms
 
             return;
         }
-
-        $data = $this->form->getState();
 
         $link = Link::create([
             'original_url' => $data['original_url'],
