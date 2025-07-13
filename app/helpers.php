@@ -10,7 +10,6 @@
 
 use App\Models\Domain;
 use App\Models\Link;
-use Illuminate\Support\Facades\URL;
 
 if (! function_exists('current_domain')) {
     /**

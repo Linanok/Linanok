@@ -7,7 +7,6 @@ use App\Models\Domain;
 use App\Models\Link;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
 use Tests\TestCase;
 
 class GetShortUrlTest extends TestCase
