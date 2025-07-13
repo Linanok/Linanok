@@ -44,6 +44,7 @@ class AdminPanelProvider extends PanelProvider
             })
             ->login()
             ->profile(isSimple: false)
+            ->passwordReset()
             ->sidebarCollapsibleOnDesktop()
             ->spa()
             ->unsavedChangesAlerts()
