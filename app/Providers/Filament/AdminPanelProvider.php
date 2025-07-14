@@ -9,7 +9,6 @@ use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
 use Filament\Panel;
 use Filament\PanelProvider;
-use Filament\Support\Assets\Js;
 use Filament\Support\Colors\Color;
 use Filament\Support\Facades\FilamentColor;
 use Filament\View\PanelsRenderHook;
@@ -73,9 +72,6 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
-            ->renderHook(PanelsRenderHook::BODY_END, fn (): string => Blade::render('components.copyright'))
-            ->assets([
-                Js::make('filament-utils', resource_path('js/filament-utils.js')),
-            ]);
+            ->renderHook(PanelsRenderHook::BODY_END, fn (): string => Blade::render('components.copyright'));
     }
 }

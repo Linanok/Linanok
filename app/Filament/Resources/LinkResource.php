@@ -104,7 +104,11 @@ class LinkResource extends Resource
                                                             ->icon('heroicon-m-clipboard')
                                                             ->tooltip('Copy to clipboard')
                                                             ->disabled(fn (Link $record) => ! $record->is_available)
-                                                            ->action(fn ($livewire, Link $record) => $livewire->dispatch('copy-to-clipboard', ['value' => LinkResource::getShortUrl($record, $livewire)])),
+                                                            ->extraAttributes(fn ($record) => [
+                                                                'data-copy-url' => get_short_url($record),
+                                                                'data-tooltip-message' => 'URL copied to clipboard',
+                                                                'x-on:click' => 'navigator.clipboard.writeText($el.dataset.copyUrl); $tooltip($el.dataset.tooltipMessage);',
+                                                            ]),
 
                                                         Action::make('visit')
                                                             ->icon('heroicon-m-arrow-top-right-on-square')
