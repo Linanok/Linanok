@@ -76,15 +76,7 @@ class MostVisitedLinks extends BaseWidget
                 Action::make('copy')
                     ->icon('heroicon-m-clipboard')
                     ->tooltip('Copy URL')
-                    ->extraAttributes(function ($record) {
-                        $url = route('link.redirect', ['short_path' => $record->short_path]);
-
-                        return [
-                            'data-copy-url' => $url,
-                            'data-tooltip-message' => 'URL copied to clipboard',
-                            'x-on:click' => 'navigator.clipboard.writeText($el.dataset.copyUrl); $tooltip($el.dataset.tooltipMessage);',
-                        ];
-                    }),
+                    ->action(fn ($livewire, Link $record) => $livewire->dispatch('copy-to-clipboard', ['value' => LinkResource::getShortUrl($record, $livewire)])),
 
                 ViewAction::make()
                     ->form(fn (Form $form): Form => LinkResource::form($form))
