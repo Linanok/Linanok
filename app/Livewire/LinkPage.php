@@ -80,7 +80,8 @@ class LinkPage extends Component implements HasForms
                 ->body(array_key_exists('body', __('filament-panels::pages/auth/password-reset/reset-password.notifications.throttled') ?: []) ? __('filament-panels::pages/auth/password-reset/reset-password.notifications.throttled.body', [
                     'seconds' => $e->secondsUntilAvailable,
                     'minutes' => $e->minutesUntilAvailable,
-                ]) : null)                ->danger()
+                ]) : null)
+                ->danger()
                 ->send();
 
             return;
