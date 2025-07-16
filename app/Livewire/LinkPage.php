@@ -4,6 +4,8 @@ namespace App\Livewire;
 
 use App\Models\Link;
 use App\Services\LinkVisitService;
+use DanHarrin\LivewireRateLimiting\Exceptions\TooManyRequestsException;
+use DanHarrin\LivewireRateLimiting\WithRateLimiting;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\ViewField;
@@ -15,7 +17,7 @@ use Livewire\Component;
 
 class LinkPage extends Component implements HasForms
 {
-    use InteractsWithForms;
+    use InteractsWithForms, WithRateLimiting;
 
     public Link $link;
 
@@ -55,8 +57,7 @@ class LinkPage extends Component implements HasForms
                             ->label('Please enter the password to access this link')
                             ->placeholder('******')
                             ->password()
-                            ->revealable()
-                            ->required(),
+                            ->revealable(),
 
                         ViewField::make('submit')
                             ->view('components.filament-button')
@@ -71,6 +72,20 @@ class LinkPage extends Component implements HasForms
 
     public function submit()
     {
+        try {
+            $this->rateLimit(5);
+        } catch (TooManyRequestsException $e) {
+            Notification::make()
+                ->title('Too many attempts.')
+                ->body(array_key_exists('body', __('filament-panels::pages/auth/password-reset/reset-password.notifications.throttled') ?: []) ? __('filament-panels::pages/auth/password-reset/reset-password.notifications.throttled.body', [
+                    'seconds' => $e->secondsUntilAvailable,
+                    'minutes' => $e->minutesUntilAvailable,
+                ]) : null)                ->danger()
+                ->send();
+
+            return;
+        }
+
         $password = $this->data['password'] ?? null;
 
         if (empty($password)) {
