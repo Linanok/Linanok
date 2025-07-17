@@ -97,7 +97,7 @@ class QuickLinkCreator extends Widget implements HasForms
 
         $this->form->fill();
 
-        $shortenedUrl = route('link.redirect', ['short_path' => $link->short_path]);
+        $shortenedUrl = get_short_url($link);
 
         Notification::make()
             ->success()

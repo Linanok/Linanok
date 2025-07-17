@@ -60,7 +60,7 @@ class StatsOverview extends BaseWidget
         // Get top performing link
         $topLink = Link::orderBy('visit_count', 'desc')->first();
         $topLinkVisits = $topLink ? $topLink->visit_count : 0;
-        $topLinkUrl = $topLink ? route('link.redirect', ['short_path' => $topLink->short_path]) : '#';
+        $topLinkUrl = $topLink ? get_short_url($topLink) : '#';
 
         return [
             Stat::make('Total Links', number_format($totalLinks))
