@@ -92,7 +92,7 @@ class Link extends Model
         }
 
         return $query->whereHas('domains', function (Builder $query) use ($currentDomain) {
-            $query->where('domains.id', $currentDomain->id);
+            $query->where('domains.id', $currentDomain->id)->where('domains.is_active', true);
         });
     }
 
