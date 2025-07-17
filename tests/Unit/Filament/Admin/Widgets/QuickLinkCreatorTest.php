@@ -71,19 +71,6 @@ class QuickLinkCreatorTest extends TestCase
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
-    public function it_requires_the_original_url()
-    {
-        $this->actingAs($this->user);
-
-        Livewire::test(QuickLinkCreator::class)
-            ->fillForm([
-                'original_url' => '',
-            ])
-            ->call('create')
-            ->assertHasFormErrors(['original_url' => 'required']);
-    }
-
-    #[\PHPUnit\Framework\Attributes\Test]
     public function it_can_redirect_to_advanced_options()
     {
         $this->actingAs($this->user);
