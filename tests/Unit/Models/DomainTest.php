@@ -6,6 +6,7 @@ use App\Enums\Protocol;
 use App\Models\Domain;
 use App\Models\Link;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
@@ -77,7 +78,14 @@ class DomainTest extends TestCase
 
         // Assert
         $this->assertEquals(1, $activeDomains->count());
-        $this->assertTrue($activeDomains->first()->is_active);
+        switch (DB::connection()->getDriverName()) {
+            case 'postgres':
+                $this->assertTrue($activeDomains->first()->is_active);
+                break;
+            case 'sqlite':
+                $this->assertEquals(1, $activeDomains->first()->is_active);
+                break;
+        }
     }
 
     #[Test]

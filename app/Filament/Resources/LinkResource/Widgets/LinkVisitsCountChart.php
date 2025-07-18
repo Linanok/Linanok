@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\LinkResource\Widgets;
 
 use App\Models\LinkVisit;
+use App\Traits\DatabaseCompatible;
 use Carbon\Carbon;
 use Filament\Resources\Pages\Concerns\InteractsWithRecord;
 use Filament\Widgets\ChartWidget;
@@ -11,7 +12,7 @@ use Flowframe\Trend\TrendValue;
 
 class LinkVisitsCountChart extends ChartWidget
 {
-    use InteractsWithRecord;
+    use DatabaseCompatible, InteractsWithRecord;
 
     protected static ?string $heading = 'Visits & Unique Visitors Timeline';
 
@@ -99,15 +100,16 @@ class LinkVisitsCountChart extends ChartWidget
             ->interval($interval)
             ->count();
 
-        // Get unique visitors data
+        // Get unique visitors data using database-compatible date truncation
+        $dateTruncSql = $this->getDateTruncSql($interval, 'created_at');
         $uniqueVisitors = Trend::query(
-            linkVisit::query()
+            LinkVisit::query()
                 ->select('datetime')
                 ->selectRaw('count(*) as aggregate')
                 ->fromSub(
-                    linkVisit::query()
-                        ->selectRaw("date_trunc('$interval' ,created_at) as datetime")
-                        ->whereLinkId($this->record->id)
+                    LinkVisit::query()
+                        ->selectRaw("$dateTruncSql as datetime")
+                        ->where('link_id', $this->record->id)
                         ->groupBy('ip', 'datetime'),
                     'sub')
                 ->groupBy('datetime')

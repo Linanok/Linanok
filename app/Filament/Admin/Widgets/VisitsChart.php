@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Widgets;
 
 use App\Models\LinkVisit;
+use App\Traits\DatabaseCompatible;
 use Carbon\Carbon;
 use Filament\Widgets\ChartWidget;
 use Flowframe\Trend\Trend;
@@ -10,6 +11,8 @@ use Flowframe\Trend\TrendValue;
 
 class VisitsChart extends ChartWidget
 {
+    use DatabaseCompatible;
+
     protected static ?string $heading = 'Visits Timeline';
 
     protected static ?string $pollingInterval = null;
@@ -78,14 +81,15 @@ class VisitsChart extends ChartWidget
             ->interval($interval)
             ->count();
 
-        // Get unique visitors data
+        // Get unique visitors data using database-compatible date truncation
+        $dateTruncSql = $this->getDateTruncSql($interval, 'created_at');
         $uniqueVisitors = Trend::query(
             LinkVisit::query()
                 ->select('datetime')
                 ->selectRaw('count(*) as aggregate')
                 ->fromSub(
                     LinkVisit::query()
-                        ->selectRaw("date_trunc('$interval' ,created_at) as datetime")
+                        ->selectRaw("$dateTruncSql as datetime")
                         ->groupBy('ip', 'datetime'),
                     'sub')
                 ->groupBy('datetime')

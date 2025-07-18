@@ -187,7 +187,8 @@ If you prefer to install Linanok without Docker:
    ```
 
 4. **Set up your database:**
-    - Create a PostgreSQL database
+    - For PostgreSQL: Create a PostgreSQL database
+    - For SQLite: No setup required (database file will be created automatically)
     - Update the `.env` file with your database credentials
 
 5. **Configure environment:**
@@ -219,18 +220,23 @@ If you prefer to install Linanok without Docker:
 
 Key configuration options in your `.env` file:
 
-- **Database**: Configure PostgreSQL connection settings
+- **Database**: Configure PostgreSQL or SQLite connection settings
 - **Redis**: Set up Redis for caching and queue management
 - **Queue**: Set queue driver (Redis recommended for production)
 - **Logging**: Configure log levels and storage
 
 ### Database Setup
 
-Linanok uses PostgreSQL as the primary database. Ensure your database is properly configured with:
+Linanok supports both PostgreSQL and SQLite databases. PostgreSQL is recommended for production environments, while
+SQLite is perfect for development and smaller deployments.
+
+**For PostgreSQL**, ensure your database is properly configured with:
 
 - UTF-8 encoding
 - Proper user permissions
 - Adequate connection limits
+
+**For SQLite**, the database file will be automatically created in the `database/` directory.
 
 ### Queue Configuration
 
