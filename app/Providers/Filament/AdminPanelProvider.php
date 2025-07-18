@@ -42,7 +42,6 @@ class AdminPanelProvider extends PanelProvider
                 return asset('linanok.svg');
             })
             ->login()
-            ->profile(isSimple: false)
             ->passwordReset()
             ->sidebarCollapsibleOnDesktop()
             ->spa()
