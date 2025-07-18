@@ -157,7 +157,7 @@ class UserResource extends Resource
                 HistoryAction::make(static::class),
             ])
             ->bulkActions([
-                DeleteBulkAction::make(),
+                DeleteBulkAction::make()->visible(fn () => request()->user()->can('delete user')),
             ]);
     }
 
