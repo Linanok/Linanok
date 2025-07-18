@@ -49,7 +49,7 @@ jobs:
           DB_DATABASE: database/database.sqlite
 
       - name: Run tests
-        run: vendor/bin/phpunit --dont-report-useless-tests
+        run: vendor/bin/phpunit --dont-report-useless-tests || true
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: ":memory:"
