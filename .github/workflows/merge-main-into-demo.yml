@@ -1,7 +1,10 @@
-name: Merge Main Branch into Demo Branch
+name: Merge Main Branch into Demo Branch and Docker Build
+
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
+
 jobs:
   merge:
     runs-on: ubuntu-latest
@@ -26,3 +29,6 @@ jobs:
           git checkout demo
           git merge origin/main --no-edit
           git push origin demo
+
+      - name: Build and Push Docker Images
+        uses: linanok/linanok/.github/workflows/docker-build-push.yml@demo
