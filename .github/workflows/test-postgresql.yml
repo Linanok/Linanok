@@ -63,7 +63,7 @@ jobs:
           DB_PASSWORD: testpass
 
       - name: Run tests
-        run: vendor/bin/phpunit --dont-report-useless-tests || true
+        run: vendor/bin/phpunit --dont-report-useless-tests
         env:
           DB_CONNECTION: pgsql
           DB_HOST: 127.0.0.1
