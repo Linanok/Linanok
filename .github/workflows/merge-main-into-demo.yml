@@ -1,0 +1,28 @@
+name: Merge Main Branch into Demo Branch
+on:
+  push:
+    branches: [ main ]
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Important to fetch all history
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+
+      - name: Merge main into demo
+        run: |
+          git fetch origin demo
+          git checkout demo
+          git merge origin/main --no-edit
+          git push origin demo

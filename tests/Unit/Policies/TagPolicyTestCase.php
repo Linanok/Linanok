@@ -5,7 +5,7 @@ namespace Tests\Unit\Policies;
 use App\Models\Tag;
 use App\Policies\TagPolicy;
 
-class TagPolicyTest extends BasePolicyTest
+class TagPolicyTestCase extends BasePolicyTestCase
 {
     protected function setUp(): void
     {

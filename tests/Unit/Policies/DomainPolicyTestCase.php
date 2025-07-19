@@ -5,7 +5,7 @@ namespace Tests\Unit\Policies;
 use App\Models\Domain;
 use App\Policies\DomainPolicy;
 
-class DomainPolicyTest extends BasePolicyTest
+class DomainPolicyTestCase extends BasePolicyTestCase
 {
     protected function setUp(): void
     {
