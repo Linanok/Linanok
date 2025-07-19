@@ -1,0 +1,16 @@
+name: Merge Main Branch into Demo Branch
+on:
+  push:
+    branches: [ main ]
+jobs:
+  merge-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Merge
+        uses: devmasx/merge-branch@master
+        with:
+          type: now
+          target_branch: demo
+          github_token: ${{ secrets.GITHUB_TOKEN }}
