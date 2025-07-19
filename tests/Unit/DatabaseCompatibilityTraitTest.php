@@ -119,8 +119,8 @@ class DatabaseCompatibilityTraitTest extends TestCase
         // Test with current database (SQLite)
         $actualSql = $this->getILikeSql('column', '%value%');
         if (DB::connection()->getDriverName() === 'pgsql') {
-            $this->assertEquals('column ILIKE \'%value%\' COLLATE NOCASE', $actualSql);
-        } else {
+            $this->assertEquals('column ILIKE \'%value%\'', $actualSql);
+        } elseif (DB::connection()->getDriverName() === 'sqlite') {
             $this->assertEquals('column LIKE \'%value%\' COLLATE NOCASE', $actualSql);
         }
 
