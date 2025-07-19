@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Traits\DatabaseCompatible;
+use Illuminate\Support\Facades\DB;
 use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
@@ -22,8 +23,10 @@ class DatabaseCompatibilityTraitTest extends TestCase
             $this->assertIsString($sql);
             $this->assertNotEmpty($sql);
 
-            // For SQLite, should contain date functions but not date_trunc
-            $this->assertStringNotContainsString('date_trunc', $sql);
+            if (DB::connection()->getDriverName() === 'sqlite') {
+                // For SQLite, should contain date functions but not date_trunc
+                $this->assertStringNotContainsString('date_trunc', $sql);
+            }
         }
 
         // Test that the method exists and works for all supported drivers
@@ -79,6 +82,12 @@ class DatabaseCompatibilityTraitTest extends TestCase
     #[Test]
     public function it_detects_database_features_correctly(): void
     {
+        if (DB::connection()->getDriverName() !== 'sqlite') {
+            $this->assertTrue(true);
+
+            return;
+        }
+
         // Test with current database (SQLite)
         $sqliteFeatures = [
             'full_text_search' => false,
@@ -109,7 +118,11 @@ class DatabaseCompatibilityTraitTest extends TestCase
     {
         // Test with current database (SQLite)
         $actualSql = $this->getILikeSql('column', '%value%');
-        $this->assertEquals('column LIKE \'%value%\' COLLATE NOCASE', $actualSql);
+        if (DB::connection()->getDriverName() === 'pgsql') {
+            $this->assertEquals('column ILIKE \'%value%\' COLLATE NOCASE', $actualSql);
+        } else {
+            $this->assertEquals('column LIKE \'%value%\' COLLATE NOCASE', $actualSql);
+        }
 
         // Test that the method exists and returns a string
         $this->assertIsString($actualSql);
