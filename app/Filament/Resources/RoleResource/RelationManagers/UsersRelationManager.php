@@ -28,7 +28,8 @@ class UsersRelationManager extends RelationManager
             ->headerActions([
                 CreateAction::make(),
                 AttachAction::make()
-                    ->recordTitle(fn (User $record): string => $record->name),
+                    ->recordTitle(fn (User $record): string => $record->name)
+                    ->recordSelectSearchColumns(['name', 'email']),
             ])
             ->actions([
                 // ...
