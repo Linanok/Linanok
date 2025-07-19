@@ -277,8 +277,7 @@ class LinkResource extends Resource
 
                 IconColumn::make('is_available')
                     ->label('Available')
-                    ->boolean()
-                    ->sortable(),
+                    ->boolean(),
 
                 IconColumn::make('has_password')
                     ->label('Password Protected')
