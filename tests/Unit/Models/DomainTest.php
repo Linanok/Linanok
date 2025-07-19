@@ -79,7 +79,7 @@ class DomainTest extends TestCase
         // Assert
         $this->assertEquals(1, $activeDomains->count());
         switch (DB::connection()->getDriverName()) {
-            case 'postgres':
+            case 'pgsql':
                 $this->assertTrue($activeDomains->first()->is_active);
                 break;
             case 'sqlite':
