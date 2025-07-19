@@ -5,7 +5,7 @@ namespace Tests\Unit\Policies;
 use App\Models\Role;
 use App\Policies\RolePolicy;
 
-class RolePolicyTest extends BasePolicyTest
+class RolePolicyTestCase extends BasePolicyTestCase
 {
     protected function setUp(): void
     {

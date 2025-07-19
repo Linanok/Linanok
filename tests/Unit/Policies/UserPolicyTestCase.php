@@ -5,7 +5,7 @@ namespace Tests\Unit\Policies;
 use App\Models\User;
 use App\Policies\UserPolicy;
 
-class UserPolicyTest extends BasePolicyTest
+class UserPolicyTestCase extends BasePolicyTestCase
 {
     protected function setUp(): void
     {

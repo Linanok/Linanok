@@ -5,7 +5,7 @@ namespace Tests\Unit\Policies;
 use App\Models\Permission;
 use App\Policies\PermissionPolicy;
 
-class PermissionPolicyTest extends BasePolicyTest
+class PermissionPolicyTestCase extends BasePolicyTestCase
 {
     protected function setUp(): void
     {

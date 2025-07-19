@@ -5,7 +5,7 @@ namespace Tests\Unit\Policies;
 use App\Models\Link;
 use App\Policies\LinkPolicy;
 
-class LinkPolicyTest extends BasePolicyTest
+class LinkPolicyTestCase extends BasePolicyTestCase
 {
     protected function setUp(): void
     {
