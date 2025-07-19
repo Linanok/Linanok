@@ -28,7 +28,10 @@ class LinksRelationManager extends RelationManager
             ->headerActions([
                 CreateAction::make(),
                 AttachAction::make()
-                    ->recordTitle(fn (Link $record): string => "$record->short_path | $record->original_url"),
+                    ->recordTitle(fn (Link $record): string => "$record->short_path | $record->original_url")
+                    ->recordSelectSearchColumns([
+                        'short_path', 'original_url', 'slug', 'description',
+                    ]),
             ])
             ->actions([
                 // ...
